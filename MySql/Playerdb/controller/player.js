@@ -1,10 +1,10 @@
-const connection = require('../utils/sqlDatabase.js');
+
 const db = require('../utils/sqlDatabase.js')
 const addEntries = (req,res) => {
     const {email,name} = req.body;
-    const insertQuery = 'INSERT INOT PLAYERS (email,name)VALUES(?,?)';
+    const insertQuery = 'INSERT INTO PLAYERS (email,name) VALUES(?,?)';
 
-    db.execute(insert(insertQuery,[email,name],(err,result)=>{
+    db.execute(insertQuery,[email,name],(err,result)=>{
        if(err){
          console.log(err.message);
          res.status(500).send(err.message);
@@ -13,7 +13,7 @@ const addEntries = (req,res) => {
        }
        console.log("Value has been inserted");
        res.status(200).send(`Player ${name} with ${email} added.`)
-    }))
+    })               
 }
 
 const updateEntries = (req, res) => {
@@ -59,10 +59,24 @@ const deleteEntries = (req,res) =>{
         });
     });
 };
+const showEntries = (req, res) => {
+                const selectQuery = 'select * from players';
+                db.query(selectQuery,(err,result) => {
+                    if(err){
+                        console.log(err.message);
+                        res.status(500).send("not found");
+                        return;
+                    }
 
+                      res.status(200).json({
+            players: result
+        });
+                })
+}
 
 module.exports = {
     addEntries,
     updateEntries,
-    deleteEntries
+    deleteEntries,
+    showEntries
 }

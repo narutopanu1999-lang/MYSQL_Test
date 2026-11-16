@@ -1,8 +1,9 @@
 
 const express = require('express');
-const playerRoutes = require('../routes/playerRoutes.js');
-
 const app = express();
+const playerRoutes = require('./routes/playerRoutes.js');
+
+
 const port = 3000;
 
 app.use(express.json());
